@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="stylesheets/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="login-section">
+      <div class="logo"></div>
+      <h2>Welcome Back!</h2>
+      <p>Please enter log in details below</p>
+      <form action="/login" method="POST">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <div class="options">
+          <span></span>
+          <a href="#">Forget password?</a>
+        </div>
+        <button type="submit">Sign in</button>
+        <div class="divider">or continue</div>
+        <button class="google-btn">
+          <img src="/images/Logo-google-icon-PNG.png" alt="Google" />
+          <p>Log in with Google</p>
+        </button>
+        <p class="signup">Don't have an account? <a href="#">Sign Up</a></p>
+      </form>
+    </div>
+
+    <div class="image-section">
+      <img src="/images/login.png" class="character" />
+      
+      <p class="imageP">Keep track of your product warranties and bills easily with our platform.</p>
+      
+    </div>
+  </div>
+</body>
+</html>

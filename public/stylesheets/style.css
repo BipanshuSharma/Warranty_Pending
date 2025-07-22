@@ -1,0 +1,186 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #1C1554, #86d8af);
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  height: 550px;
+  display: flex;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: white;
+}
+
+.login-section {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-section .logo {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.login-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.login-section p {
+  margin-bottom: 20px;
+  color: gray;
+}
+
+form input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #f0f0f0;
+}
+
+form .options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+form button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  position: relative;
+  color: gray;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  height: 1px;
+  background: #ccc;
+  position: absolute;
+  top: 50%;
+  width: 40%;
+}
+
+.divider::before {
+  left: 0;
+}
+.divider::after {
+  right: 0;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #ccc;
+}
+.google-btn p{
+  margin: 0;
+  color: black;
+  font-size: 16px;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.signup a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.image-section {
+  flex: 1;
+  background: #111;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.image-section .character {
+  max-width: 70%;
+  margin-bottom: 20px;
+}
+
+.image-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.image-section p {
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.dots span {
+  width: 8px;
+  height: 8px;
+  background: #555;
+  border-radius: 50%;
+}
+
+.dots .active {
+  background: white;
+}
+
+.imageP {
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  color: #f5fcff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  text-transform: uppercase;
+}
