@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
-  <link rel="stylesheet" href="stylesheets/style.css"/>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css"/>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="container">
@@ -21,20 +22,52 @@
         </div>
         <button type="submit">Sign in</button>
         <div class="divider">or continue</div>
-        <button class="google-btn">
-          <img src="/images/Logo-google-icon-PNG.png" alt="Google" />
-          <p>Log in with Google</p>
-        </button>
+
+        <!-- Google Login button will appear here -->
+        <div id="g_id_onload"
+             data-client_id="<%= googleClientId %>"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="rectangular"
+             data-theme="outline"
+             data-text="signin_with"
+             data-size="large"
+             data-logo_alignment="left">
+        </div>
+
         <p class="signup">Don't have an account? <a href="#">Sign Up</a></p>
       </form>
     </div>
 
     <div class="image-section">
       <img src="/images/login.png" class="character" />
-      
       <p class="imageP">Keep track of your product warranties and bills easily with our platform.</p>
-      
     </div>
   </div>
+
+  <script>
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+      // Send this token to your backend via fetch or form submission
+      fetch('/google-login', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Login Successful with Google");
+        console.log(data);
+        // redirect if needed
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
+  </script>
 </body>
 </html>
