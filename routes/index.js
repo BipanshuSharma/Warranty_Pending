@@ -11,6 +11,20 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/* GET signup page */
+router.get('/signup', function(req, res, next) {
+  res.render('signup', {
+    googleClientId: process.env.GOOGLE_CLIENT_ID
+  });
+});
+
+
+router.post('/signup', async function(req, res) {
+  // We'll write full code later – just making sure this route exists
+});
+
+
+
 
 /* POST login form */
 router.post("/login", (req, res) => {
