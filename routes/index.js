@@ -44,12 +44,7 @@ router.post('/signup', async function (req, res) {
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Dummy login logic – You can later connect with DB
-  if (email === 'test@example.com' && password === '123456') {
-    res.send('✅ Login successful');
-  } else {
-    res.send('❌ Invalid credentials');
-  }
+
 });
 
 /* POST: Google login */
