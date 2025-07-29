@@ -41,13 +41,28 @@ router.post('/signup', async function (req, res) {
 });
 
 /* POST login form */
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
 
+    if (!user) {
+      return res.status(400).send("❌ User not found.");
+    }
 
+    // If you're using plain text passwords (not recommended)
+    if (user.password !== password) {
+      return res.status(401).send("❌ Incorrect password.");
+    }
+
+    // If login is successful
+    res.send(`✅Welcome! ${user.name}`);
+  } catch (err) {
+    console.error('Login Error:', err);
+    res.status(500).send("❌ Error during login.");
+  }
 });
 
-/* POST: Google login */
 router.post('/google-login', (req, res) => {
   const { credential } = req.body;
 
