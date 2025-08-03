@@ -1,7 +1,11 @@
+
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // import the User model
+const Warranty = require('../models/warranty'); // or your correct model path
+const session = require('express-session');
+
 require('dotenv').config();
 
 /* GET login page */
@@ -54,9 +58,10 @@ router.post('/login', async (req, res) => {
     if (user.password !== password) {
       return res.status(401).send("❌ Incorrect password.");
     }
+     req.session.user = user;
 
-    // If login is successful
-    res.send(`✅Welcome! ${user.name}`);
+    // ✅ Redirect to main page
+    res.redirect('/main');
   } catch (err) {
     console.error('Login Error:', err);
     res.status(500).send("❌ Error during login.");
@@ -76,5 +81,50 @@ router.post('/google-login', (req, res) => {
     res.status(401).send('❌ Google login failed');
   }
 });
+
+router.get('/main', async (req, res) => {
+  const user = req.session.user;
+  if (!user) return res.redirect('/');
+
+  try {
+    const warranties = await Warranty.find(); // fetch all warranties
+
+    const today = new Date();
+    const expiringSoon = warranties.filter(w => {
+      const daysLeft = (new Date(w.expiryDate) - today) / (1000 * 60 * 60 * 24);
+      return daysLeft <= 30;
+    });
+
+    res.render('main', { user, warranties, expiringSoon });
+  } catch (err) {
+    console.error("Error fetching warranties:", err);
+    res.status(500).send("Something went wrong");
+  }
+});
+
+
+
+router.post('/add-warranty', async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+
+  const { productName, purchaseDate, warrantyPeriod } = req.body;
+
+  try {
+    const newWarranty = new Warranty({
+      user: req.session.user._id, // store reference to the user
+      productName,
+      purchaseDate,
+      warrantyPeriod,
+    });
+
+    await newWarranty.save();
+    res.redirect("/main"); // after adding, redirect back
+  } catch (err) {
+    console.error("Error adding warranty:", err);
+    res.status(500).send("Something went wrong");
+  }
+});
+
+
 
 module.exports = router;

@@ -1,3 +1,4 @@
+const session = require('express-session');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -32,6 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'bipanshu_secret_key', // can be anything random
+  resave: false,
+  saveUninitialized: false
+}));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -50,5 +56,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
