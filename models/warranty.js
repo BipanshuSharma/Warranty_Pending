@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const warrantySchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // link to the user who added it
+    ref: 'User',
     required: true,
   },
-  productName: String,
+  product: String,         // previously productName
+  brand: String,
+  description: String,
   purchaseDate: Date,
-  warrantyPeriod: Number, // in months
-  billImageUrl: String,   // if you're storing bill image
+  warrantyPeriod: Number,
+  expiryDate: Date,
+  billImagePath: String,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -17,4 +20,3 @@ const warrantySchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Warranty', warrantySchema);
-
