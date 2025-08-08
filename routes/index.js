@@ -63,7 +63,12 @@ router.post('/signup', async function (req, res) {
     const newUser = new User({ name, email, password });
     await newUser.save();
 
-    res.send('✅ Signup successful!');
+    // Set session after successful signup
+    req.session.user = newUser;
+
+    // Redirect to main page
+    res.redirect('/main');
+
   } catch (err) {
     console.error('Signup Error:', err);
     res.status(500).send('❌ Error during signup.');
