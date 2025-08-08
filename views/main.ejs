@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="/stylesheets/main.css" />
 </head>
+
 <body>
 
   <div class="container">
@@ -26,50 +28,62 @@
     </div>
 
     <!-- Expiring Soon Warranties -->
-    <% if (expiringSoon.length > 0) { %>
+    <% if (expiringSoon.length> 0) { %>
       <div class="section warning">
         <h2>⚠️ Expiring Soon (Within 30 Days)</h2>
         <ul>
-          <% expiringSoon.forEach(item => { %>
+          <% expiringSoon.forEach(item=> { %>
             <li class="card flex">
               <div>
                 <div class="card-title">
                   <%= item.product %> — <%= item.brand %>
                 </div>
-                <p>Expires on: <%= item.expiryDate && !isNaN(new Date(item.expiryDate)) ? new Date(item.expiryDate).toLocaleDateString() : 'N/A' %></p>
+                <p>Expires on: <%= item.expiryDate && !isNaN(new Date(item.expiryDate)) ? new
+                    Date(item.expiryDate).toLocaleDateString() : 'N/A' %>
+                </p>
               </div>
-              <form action="/warranty/delete/<%= item._id %>" method="POST">
+              <form action="/warranty/delete/<%= w._id %>" method="POST">
                 <button class="delete-btn">❌ Delete</button>
               </form>
+
             </li>
-          <% }) %>
+            <% }) %>
         </ul>
       </div>
-    <% } %>
+      <% } %>
 
-    <!-- All Warranties -->
-    <div class="section">
-      <h2>📦 All Warranties</h2>
-      <div class="grid">
-        <% warranties.forEach(w => { %>
-          <div class="card">
-            <% if (w.billImagePath) { %>
-              <img src="<%= w.billImagePath %>" alt="Product Bill" />
-            <% } %>
+        <!-- All Warranties -->
+        <div class="section">
+          <h2>📦 All Warranties</h2>
+          <div class="grid">
+            <% warranties.forEach(w=> { %>
+              <div class="card">
+                <% if (w.billImagePath) { %>
+                  <img src="<%= w.billImagePath %>" alt="Product Bill" />
+                  <% } %>
 
-            <div class="card-title"><%= w.product %> — <%= w.brand %></div>
-            <p><%= w.description %></p>
-            <p>Purchase: <%= w.purchaseDate && !isNaN(new Date(w.purchaseDate)) ? new Date(w.purchaseDate).toLocaleDateString() : 'N/A' %></p>
-            <p>Expires: <%= w.expiryDate && !isNaN(new Date(w.expiryDate)) ? new Date(w.expiryDate).toLocaleDateString() : 'N/A' %></p>
+                    <div class="card-title">
+                      <%= w.product %> — <%= w.brand %>
+                    </div>
+                    <p>
+                      <%= w.description %>
+                    </p>
+                    <p>Purchase: <%= w.purchaseDate && !isNaN(new Date(w.purchaseDate)) ? new
+                        Date(w.purchaseDate).toLocaleDateString() : 'N/A' %>
+                    </p>
+                    <p>Expires: <%= w.expiryDate && !isNaN(new Date(w.expiryDate)) ? new
+                        Date(w.expiryDate).toLocaleDateString() : 'N/A' %>
+                    </p>
 
-            <form action="/warranty/delete/<%= w._id %>" method="POST">
-              <button class="delete-btn">❌ Delete</button>
-            </form>
+                    <form action="/warranty/delete/<%= w._id %>" method="POST">
+                      <button class="delete-btn">❌ Delete</button>
+                    </form>
+              </div>
+              <% }) %>
           </div>
-        <% }) %>
-      </div>
-    </div>
+        </div>
   </div>
 
 </body>
+
 </html>

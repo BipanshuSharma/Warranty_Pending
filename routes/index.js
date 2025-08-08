@@ -178,12 +178,15 @@ router.post('/add-warranty', upload.single('billImage'), async (req, res) => {
     warrantyPeriod
   });
 
+  
+  
+  
   // Validate required fields
   if (!product || !brand || !purchaseDate || !warrantyPeriod) {
     console.log("Missing required fields");
     return res.status(400).send("Missing required fields");
   }
-
+  
   // Convert purchaseDate string to proper Date object
   const purchaseDateObj = new Date(purchaseDate);
   
@@ -196,13 +199,13 @@ router.post('/add-warranty', upload.single('billImage'), async (req, res) => {
   // Calculate expiry date by adding warranty period months
   const expiryDate = new Date(purchaseDateObj);
   expiryDate.setMonth(expiryDate.getMonth() + parseInt(warrantyPeriod));
-
+  
   console.log("Calculated dates:", {
     purchaseDateObj,
     expiryDate,
     warrantyPeriod: parseInt(warrantyPeriod)
   });
-
+  
   try {
     const newWarranty = new Warranty({
       user: req.session.user._id, // store reference to the user
@@ -214,7 +217,7 @@ router.post('/add-warranty', upload.single('billImage'), async (req, res) => {
       expiryDate: expiryDate, // Store as Date object
       billImagePath: req.file ? `/uploads/${req.file.filename}` : undefined,
     });
-
+    
     console.log("Warranty object to save:", newWarranty);
     
     await newWarranty.save();
@@ -232,5 +235,22 @@ router.post('/add-warranty', upload.single('billImage'), async (req, res) => {
 });
 
 
+router.post('/warranty/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  if (!req.session.user) return res.redirect("/login");
+
+  try {
+    await Warranty.findOneAndDelete({
+      _id: id,
+      user: req.session.user._id,
+    });
+
+    res.redirect('/main');
+  } catch (err) {
+    console.error('❌ Error deleting warranty:', err);
+    res.status(500).send('Error deleting warranty.');
+  }
+});
 
 module.exports = router;
