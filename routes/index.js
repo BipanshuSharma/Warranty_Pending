@@ -107,17 +107,27 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/google-login', (req, res) => {
+router.post('/google-login', async (req, res) => {
   const { credential } = req.body;
-
   try {
     const decoded = jwt.decode(credential);
+    if (!decoded || !decoded.email) {
+      return res.status(401).json({ ok: false, error: 'Invalid Google token' });
+    }
+
     const { email, name, picture } = decoded;
 
-    // Save or verify user in DB later
-    res.send(`✅ Google login successful. Welcome, ${name} (${email})`);
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = new User({ name: name || email, email, password: '' });
+      await user.save();
+    }
+
+    req.session.user = user;
+    return res.json({ ok: true, redirect: '/main' });
   } catch (err) {
-    res.status(401).send('❌ Google login failed');
+    console.error('Google login error:', err);
+    return res.status(401).json({ ok: false, error: 'Google login failed' });
   }
 });
 
@@ -152,6 +162,15 @@ router.get('/main', async (req, res) => {
     console.error("Error fetching warranties:", err);
     res.status(500).send("Something went wrong");
   }
+});
+
+
+// Logout route: destroy session and redirect to login
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  });
 });
 
 

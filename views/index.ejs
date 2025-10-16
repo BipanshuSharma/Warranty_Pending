@@ -60,9 +60,12 @@
       })
       .then(res => res.json())
       .then(data => {
-        alert("Login Successful with Google");
-        console.log(data);
-        // redirect if needed
+        if (data && data.ok && data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          alert('Google login failed');
+          console.error('Google login response:', data);
+        }
       })
       .catch(err => {
         console.error(err);
